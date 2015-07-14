@@ -9,9 +9,6 @@
 
 #include <string>
 #include "json/json.h"
-#include <typeinfo>
-#include <iostream>
-#include <sstream>
 
 #include "JsonHandler.h"
 
