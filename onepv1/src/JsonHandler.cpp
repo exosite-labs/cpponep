@@ -9,6 +9,9 @@
 
 #include <string>
 #include "json/json.h"
+#include <typeinfo>
+#include <iostream>
+#include <sstream>
 
 #include "JsonHandler.h"
 
@@ -28,7 +31,7 @@ namespace onepv1{
     cik["cik"]= parentkey;
     root["auth"] = cik;
     root["calls"] = calls;    
-    string out = root.toStyledString();   
+    string out = root.toStyledString();
     return out;
   }
   Result JsonHandler::parseResponse(string response){
@@ -121,12 +124,20 @@ namespace onepv1{
     arguments.append(options);
     return arguments;    
   }
-   Json::Value JsonHandler::getArguments(string rid,const char* value,Json::Value options){
+  Json::Value JsonHandler::getArguments(string rid,const char* value,Json::Value options){
     Json::Value arguments;
     arguments.append(rid);
     arguments.append(value);
     arguments.append(options);
     return arguments;    
   }  
- 
+
+  Json::Value JsonHandler::getArguments(string rid, string metric, int starttime, int endtime) {
+    Json::Value arguments;
+    arguments.append(rid);
+    arguments.append(metric);
+    arguments.append(starttime);
+    arguments.append(endtime);
+    return arguments;
+  }
 }

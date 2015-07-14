@@ -35,6 +35,7 @@ class JsonHandler{
     static Json::Value getArguments(std::string rid,double value,Json::Value options);
     static Json::Value getArguments(std::string rid,std::string value,Json::Value options);
     static Json::Value getArguments(std::string rid,const char* value,Json::Value options);
+    static Json::Value getArguments(std::string rid,std::string metric, int starttime, int endtime);
 };
 
 }

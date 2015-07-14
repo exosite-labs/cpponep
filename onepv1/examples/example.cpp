@@ -12,6 +12,8 @@
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
+#include <thread>
+#include <chrono>
 
 #include "json/json.h"
 #include "cpponep.h"
@@ -38,12 +40,14 @@ Json::Value getDescription(){
 
 int main (int argc, char *argv[])
 {     
-       string cik  = "PUTA40CHARACTERCIKHERE";
+       string cik  = "39822e536d14fcd85a8c1555ea3d066637a1d935";
        string alias = "X1"; 
-       Onep conn = Onep("http://m2.exosite.com/api:v1/rpc/process");             
+       string alias2 = "X2";
+       Onep conn = Onep("http://m2.exosite.com/onep:v1/rpc/process");             
         
        try{
          string rid;
+         string rid2;
          // Get resource id (RID) of dataport given its alias name.
          Result res0 = conn.lookup(cik,"alias",alias);
          if (Result::OK == res0.status()){
@@ -60,25 +64,66 @@ int main (int argc, char *argv[])
                cout << "Dataport: "<< rid << " is mapped to " << alias << endl;
              }
            }
+           Result res_newdp2 = conn.create(cik, "dataport", getDescription());
+           if (res_newdp2.status() == Result::OK){
+             rid2 = res_newdp2.message();
+             cout << "Dataport: "<< rid2 << " is created." << endl;
+             // Map alias to new created dataport.
+             if (Result::OK ==conn.map(cik,rid2,alias2).status()){
+               cout << "Dataport: "<< rid2 << " is mapped to " << alias << endl;
+             }
+           }
          }
          // write data to dataport
          srand((unsigned)time(0)); 
          int data = int(rand()%100);
          Result res1 = conn.write(cik,rid,data);         
          if (res1.status() == Result::OK){
-            cout<< "Data " << data << " is written."<<endl;
+            cout<< "Data " << data << " is written to single dataport X1."<<endl;
          }
 
          // read data from dataport       
          Result res2 = conn.read(cik,rid,EmptyOption::getInstance());        
          if (res2.status() == Result::OK){
-           cout << "Data read:" << endl << res2.message(); 
+           cout << "Data read from X1:" << endl << res2.message(); 
          }
 
-         // drop dataport
+         // write group data to dataports
+         this_thread::sleep_for(chrono::seconds(2));
+         srand((unsigned)time(0));
+         data = int(rand()%100);
+         Json::Value entries;
+         Json::Value array;
+         array.append(rid);
+         array.append(data);
+         Json::Value array2;
+         array2.append(rid2);
+         array2.append(data);
+         entries.append(array);
+         entries.append(array2);
+         Result res8 = conn.writegroup(cik,entries); 
+         if (res8.status() == Result::OK) {
+            cout << "Data " << data << " is written to both dataports X1 and X2" << endl;
+         }
+
+         // read data from dataports
+         Result res9 = conn.read(cik, rid, EmptyOption::getInstance());
+         if (res9.status() == Result::OK) {
+            cout << "Data read from X1:" << endl << res9.message();
+         }
+         Result res10 = conn.read(cik, rid2, EmptyOption::getInstance());
+         if (res10.status() == Result::OK) {
+            cout << "Data read from X2:" << endl << res10.message();
+         }
+
+         // drop dataports
          Result res3 = conn.drop(cik,rid);
          if (res3.status() == Result::OK){
            cout << "Dataport: "<< rid << " is dropped." << endl; 
+         }
+         Result res11 = conn.drop(cik,rid2);
+         if (res11.status() == Result::OK) {
+            cout << "Dataport: " << rid2 << " is dropped." << endl;
          }
 
          // List a client's dataports
