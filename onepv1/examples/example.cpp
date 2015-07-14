@@ -40,7 +40,7 @@ Json::Value getDescription(){
 
 int main (int argc, char *argv[])
 {     
-       string cik  = "39822e536d14fcd85a8c1555ea3d066637a1d935";
+       string cik  = "PUTA40CHARACTERCIKHERE";
        string alias = "X1"; 
        string alias2 = "X2";
        Onep conn = Onep("http://m2.exosite.com/onep:v1/rpc/process");             
