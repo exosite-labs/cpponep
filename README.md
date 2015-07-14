@@ -69,8 +69,8 @@ Release Info
 Release 0.2
 ----------------------------------------
 --) add writegroup, usage, and recordbatch<br>
---) remove comment
---) add writegroup example
+--) remove comment<br>
+--) add writegroup example<br>
 
 ----------------------------------------
 Release 0.1
