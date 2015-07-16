@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <list>
 /*=============================================================================
 * HttpTransport.cpp
 * HTTP-based JSON-RPC request call. 
@@ -52,6 +53,37 @@ string HttpTransport::send(string jsonreq){
     std::cout << e.what() << std::endl;
   }
   catch ( curlpp::RuntimeError & e ) {   
+    std::cout << e.what() << std::endl;
+    throw HttpRPCRequestException(e.what());
+  }
+  return "fail";
+}
+
+string HttpTransport::provisionSend(string message, string method, string url, list<string> headers) {
+  url = _url + url;
+  try {
+    curlpp::Cleanup cleaner;
+    curlpp::Easy request;
+
+    request.setOpt(new curlpp::options::Url(url));
+    request.setOpt(new curlpp::options::Verbose(false));
+    request.setOpt(new curlpp::options::ConnectTimeout(3000));
+    request.setOpt(new curlpp::options::HttpHeader(headers));
+    if (method == "POST") {
+      request.setOpt(new curlpp::options::PostFields(message));
+      request.setOpt(new curlpp::options::PostFieldSize(message.length()));
+    }
+
+    std::stringstream response;
+    request.setOpt(new curlpp::options::WriteStream(&response));
+
+    request.perform();
+    return response.str();
+  }
+  catch(curlpp::LogicError & e ) {
+    std::cout << e.what() << std::endl;
+  }
+  catch ( curlpp::RuntimeError & e ) {
     std::cout << e.what() << std::endl;
     throw HttpRPCRequestException(e.what());
   }
