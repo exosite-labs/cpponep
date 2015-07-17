@@ -26,7 +26,7 @@ class Provision{
 		Result model_update(string key, string model, string clonerid, bool aliases, bool comments, bool historical);
 		Result serialnumber_activate(string model, string serialnumber, string vendor);
 		Result serialnumber_add(string key, string model, string sn);
-		Result serialnumber_add_batch(string key, string model, string sns[]);
+		Result serialnumber_add_batch(string key, string model, string sns[], int snsSize);
 		Result serialnumber_disable(string key, string model, string serialnumber);
 		Result serialnumber_enable(string key, string  model, string serialnumber, string owner);
 		Result serialnumber_info(string key, string model, string serialnumber);
@@ -34,7 +34,7 @@ class Provision{
 		Result serialnumber_reenable(string key, string model, string serialnumber);
 		Result serialnumber_remap(string key, string model, string serialnumber, string oldsn);
 		Result serialnumber_remove(string key, string model, string serialnumber);
-		Result serialnumber_remove_batch(string key, string model, string sns[]);
+		Result serialnumber_remove_batch(string key, string model, string sns[], int snsSize);
 		Result vendor_register(string key, string vendor);
 		Result vendor_show(string key);
 		Result vendor_unregister(string key, string vendor);
@@ -46,7 +46,7 @@ class Provision{
 		static const string PROVISION_MANAGE_CONTENT;
 		static const string PROVISION_REGISTER;
 	private:
-		Provision(): _manage_by_sharecode(false), _manage_by_cik(true), transport(NULL) {}
+		Provision(){}
 		TransportInterface* transport;
 		bool _manage_by_cik;
 		bool _manage_by_sharecode;

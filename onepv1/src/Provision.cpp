@@ -9,19 +9,17 @@
 using namespace std;
 
 namespace onepv1{
-	const string PROVISION_BASE = "/provision";
-	const string PROVISION_ACTIVATE = PROVISION_BASE + "/activate";
-	const string PROVISION_DOWNLOAD = PROVISION_BASE + "/download";
-	const string PROVISION_MANAGE = PROVISION_BASE + "/manage";
-	const string PROVISION_MANAGE_MODEL = PROVISION_MANAGE +"/model";
-	const string PROVISION_MANAGE_CONTENT = PROVISION_MANAGE +"/content/";
-	const string PROVISION_REGISTER = PROVISION_BASE + "/register";
+	const string Provision::PROVISION_BASE = "/provision";
+	const string Provision::PROVISION_ACTIVATE = PROVISION_BASE + "/activate";
+	const string Provision::PROVISION_DOWNLOAD = PROVISION_BASE + "/download";
+	const string Provision::PROVISION_MANAGE = PROVISION_BASE + "/manage";
+	const string Provision::PROVISION_MANAGE_MODEL = PROVISION_MANAGE +"/model/";
+	const string Provision::PROVISION_MANAGE_CONTENT = PROVISION_MANAGE +"/content/";
+	const string Provision::PROVISION_REGISTER = PROVISION_BASE + "/register";
 
-	Provision::Provision(string url, bool managebycik, bool manangebysharecode) {
+	Provision::Provision(string url, bool managebycik, bool manangebysharecode) : _manage_by_cik(managebycik), _manage_by_sharecode(manangebysharecode) {
 		HttpTransport *obj = new HttpTransport(url);
 		transport = (TransportInterface*) obj;
-		bool _manage_by_sharecode = manangebysharecode;
-		bool _manage_by_cik = managebycik;
 	}
 
 	Result Provision::request(string path, string key, string data, string method, bool managebycik, list<string> extra_headers) {
@@ -40,7 +38,7 @@ namespace onepv1{
 			body = data;
 		}
 		list<string> headers;
-		if (managebycik)
+		if (_manage_by_cik)
 			headers.push_back("X-Exosite-CIK: " + key);
 		else
 			headers.push_back("X-Exosite-Token: " + key);
@@ -130,12 +128,18 @@ namespace onepv1{
 		string path = PROVISION_MANAGE_MODEL + model + "/";
 		return request(path, key, data, "POST", _manage_by_cik, list<string>());
 	}
-	Result Provision::serialnumber_add_batch(string key, string model, string sns[]) {
+	Result Provision::serialnumber_add_batch(string key, string model, string sns[], int snsSize) {
 		string data = "add=true";
-		for (int i = 0; i < sns->size(); i++) {
+		for (int i = 0; i < snsSize; i++) {
 			data = data + "&sn[]=" + sns[i];
 		}
 		string path = PROVISION_MANAGE_MODEL + model + "/";
+		return request(path, key, data, "POST", _manage_by_cik, list<string>());
+	}
+	Result Provision::serialnumber_disable(string key, string model, string serialnumber) {
+		string data = "disable=true";
+		string path = PROVISION_MANAGE_MODEL + model + "/" + serialnumber;
+		return request(path, key, data, "POST", _manage_by_cik, list<string>());
 	}
 	Result Provision::serialnumber_enable(string key, string model, string serialnumber, string owner) {
 		string data = "enable=true&owner=" + owner;
@@ -144,11 +148,11 @@ namespace onepv1{
 	}
 	Result Provision::serialnumber_info(string key, string model, string serialnumber) {
 		string path = PROVISION_MANAGE_MODEL + model + "/" + serialnumber;
-		return request(path, key, "", "POST", _manage_by_cik, list<string>());
+		return request(path, key, "", "GET", _manage_by_cik, list<string>());
 	}
 	Result Provision::serialnumber_list(string key, string model, int offset, int limit) {
 		string data = "offset=" + to_string(offset) + "&limit=" + to_string(limit);
-		string path = PROVISION_ACTIVATE + model + "/";
+		string path = PROVISION_MANAGE_MODEL + model + "/";
 		return request(path, key, data, "GET", _manage_by_cik, list<string>());
 	}
 	Result Provision::serialnumber_reenable(string key, string model, string serialnumber) {
@@ -165,9 +169,9 @@ namespace onepv1{
 		string path = PROVISION_MANAGE_MODEL + model + "/" + serialnumber;
 		return request(path, key, "", "DELETE", _manage_by_cik, list<string>());
 	}
-	Result Provision::serialnumber_remove_batch(string key, string model, string sns[]) {
+	Result Provision::serialnumber_remove_batch(string key, string model, string sns[], int snsSize) {
 		string data = "remove=true";
-		for (int i = 0; i < sns->size(); i++) {
+		for (int i = 0; i < snsSize; i++) {
 			data = data + "&sn[]=" + sns[i];
 		}
 		string path = PROVISION_MANAGE_MODEL + model + "/";

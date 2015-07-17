@@ -15,6 +15,7 @@
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
+#include <curlpp/Infos.hpp>
 
 #include "HttpTransport.h"
 #include "OneException.h"
@@ -41,7 +42,7 @@ string HttpTransport::send(string jsonreq){
     header.push_back("Content-Type: application/json; charset=utf-8"); 
     request.setOpt(new curlpp::options::HttpHeader(header)); 
     request.setOpt(new curlpp::options::PostFields(jsonreq));
-    request.setOpt(new curlpp::options::PostFieldSize( jsonreq.length() )); 
+    request.setOpt(new curlpp::options::PostFieldSize( jsonreq.length() ));
 
     std::stringstream response;
     request.setOpt(new curlpp::options::WriteStream( &response ) );
@@ -72,12 +73,18 @@ string HttpTransport::provisionSend(string message, string method, string url, l
     if (method == "POST") {
       request.setOpt(new curlpp::options::PostFields(message));
       request.setOpt(new curlpp::options::PostFieldSize(message.length()));
+      //cout << "message is: " << message << endl;
     }
+    if (method == "DELETE")
+      request.setOpt(new cURLpp::options::CustomRequest("DELETE"));
+    if (method == "PUT")
+      request.setOpt(new cURLpp::options::CustomRequest("PUT"));
 
     std::stringstream response;
     request.setOpt(new curlpp::options::WriteStream(&response));
 
     request.perform();
+    //cout << curlpp::infos::EffectiveUrl::get(request) << endl;
     return response.str();
   }
   catch(curlpp::LogicError & e ) {

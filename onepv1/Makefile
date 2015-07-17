@@ -14,12 +14,17 @@ JSONLIB = $(LIBDIR)/$(JSONLIBFILE)
 CURLLIB = -lcurlpp -lutilspp -lcurl
 EXAMPLESRC = examples/example.cpp
 EXAMPLEBIN = example
+PEXAMPLESRC = examples/ProvisionExample.cpp
+PEXAMPLEBIN = ProvisionExample
 ONEPLIB = $(LIBDIR)/$(ONEPLIBFILE)
 
-all: $(EXAMPLEBIN) cleanobj	
+all: $(EXAMPLEBIN) $(PEXAMPLEBIN) cleanobj	
 
 $(EXAMPLEBIN): $(ONEPLIB)
 	$(CC) -std=c++11 $(EXAMPLESRC) $(INC) $< $(CURLLIB) -O2 -Wall -o $@;
+
+$(PEXAMPLEBIN): $(ONEPLIB)
+	$(CC) -std=c++11 $(PEXAMPLESRC) $(INC) $< $(CURLLIB) -O2 -Wall -o $@;
 
 $(ONEPLIB) : $(OBJECTS)
 	ar crsv $(ONEPLIB) $(OBJECTS)
