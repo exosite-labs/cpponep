@@ -9,11 +9,12 @@ using namespace std;
 using namespace onepv1;
 
 int main (int argc, char *argv[]) {
-      string vendorname = "danco";
-      string vendortoken = "41e89dea09cd1df8da4906ed0c486384cc3692fa";
-      string clonecik = "bbe5644d07e0b0508b391cc9dcf8b70643ceb084";
-      string cloneportalcik = "bfdee1de0e8c1775983b6cb8604509a015b919aa"; //use only if managing by sharecode
-      string portalcik = "f5a0169e04afb39f6e53d19980beccfe92cf5beb";
+      cout << "cpponep ProvisionExample.cpp" << endl << endl;
+      string vendorname = "VENDORNAMEHERE";
+      string vendortoken = "VENDORTOKENHERE";
+      string clonecik = "CLONECIKHERE";
+      string cloneportalcik = "CLONEPORTALCIKHERE"; //use only if managing by sharecode
+      string portalcik = "PORTALCIKHERE";
 
       srand((unsigned)time(0));
       int r = int(rand() % 10000001);
@@ -81,4 +82,5 @@ int main (int argc, char *argv[]) {
       catch (ProvisionException e) {
             cout << endl << "ProvisionExample sequence exception:" << endl << e.message();
       }
+      return 0;
 }

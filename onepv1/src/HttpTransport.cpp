@@ -73,7 +73,6 @@ string HttpTransport::provisionSend(string message, string method, string url, l
     if (method == "POST") {
       request.setOpt(new curlpp::options::PostFields(message));
       request.setOpt(new curlpp::options::PostFieldSize(message.length()));
-      //cout << "message is: " << message << endl;
     }
     if (method == "DELETE")
       request.setOpt(new cURLpp::options::CustomRequest("DELETE"));
@@ -84,7 +83,6 @@ string HttpTransport::provisionSend(string message, string method, string url, l
     request.setOpt(new curlpp::options::WriteStream(&response));
 
     request.perform();
-    //cout << curlpp::infos::EffectiveUrl::get(request) << endl;
     return response.str();
   }
   catch(curlpp::LogicError & e ) {
