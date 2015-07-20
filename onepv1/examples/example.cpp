@@ -1,5 +1,5 @@
 /*=============================================================================
-* examples.cpp
+* example.cpp
 * Use-case examples.
 * Note that CIK strings ("PUTA40CHARACTER...") need to be replaced with a valid
 * value.

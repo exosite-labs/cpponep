@@ -1,3 +1,14 @@
+/*=============================================================================
+* ProvisionExample.cpp
+* Provision use-case examples.
+* Note that CIK strings ("PUTA40CHARACTER...") need to be replaced with a valid
+* value.
+*==============================================================================
+*
+* Copyright (c) 2015, Exosite LLC
+* All rights reserved.
+*/
+
 #include <iostream>
 #include <ctime>
 #include <cstdlib>

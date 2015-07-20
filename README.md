@@ -71,6 +71,7 @@ Release 0.2
 --) add writegroup, usage, and recordbatch<br>
 --) remove comment<br>
 --) add writegroup example<br>
+--) add provisioning and example<br>
 
 ----------------------------------------
 Release 0.1

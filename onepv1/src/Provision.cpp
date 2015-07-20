@@ -1,3 +1,12 @@
+/*=============================================================================
+* Provision.cpp
+* Wrapper class for Fleet Management/Provisioning procedures.
+*==============================================================================
+*
+* Copyright (c) 2015, Exosite LLC
+* All rights reserved.
+*/
+
 #include <string>
 #include <iostream>
 #include <list>

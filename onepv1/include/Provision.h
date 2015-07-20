@@ -1,3 +1,12 @@
+/*=============================================================================
+* Provision.h
+* Wrapper class for Fleet Management/Provisioning procedures.
+*==============================================================================
+*
+* Copyright (c) 2015, Exosite LLC
+* All rights reserved.
+*/
+
 #ifndef PROVISION_H_
 #define PROVISION_H_
 
