@@ -35,7 +35,7 @@ $(ONEPLIB) : $(OBJECTS)
 .PHONY: clean
 
 clean :
-	rm $(EXAMPLEBIN) $(ONEPLIB)
+	rm $(EXAMPLEBIN) $(PEXAMPLEBIN) $(ONEPLIB)
 
 cleanobj:
 	rm $(OBJECTS)
