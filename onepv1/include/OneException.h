@@ -28,6 +28,10 @@ class HttpRPCRequestException: public OneException{
   public:
     HttpRPCRequestException(std::string message) : OneException(message) {}         
 };
+class ProvisionException: public OneException{
+  public:
+    ProvisionException(std::string message) : OneException(message) {}
+};
 
 }
 

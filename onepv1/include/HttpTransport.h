@@ -11,6 +11,7 @@
 #define HTTP_TRANSPORT_H_
 
 #include "TransportInterface.h"
+#include <list>
 
 namespace onepv1{
 
@@ -20,7 +21,8 @@ class HttpTransport : public TransportInterface{
   private: 
     HttpTransport(){}
     std::string _url;
-    std::string send(std::string request);        
+    std::string send(std::string request); 
+    std::string provisionSend(std::string message, std::string method, std::string url, std::list<std::string> headers);       
 };
 
 }

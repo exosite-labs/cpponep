@@ -34,10 +34,11 @@ namespace onepv1{
     return callRPC(clientkey,"activate",argu);
   }
 
+  /* The comment function is deprecated in the One Platform
   Result Onep::comment(string clientkey,string rid, string visibility,string comment){
     Json::Value argu = JsonHandler::getArguments(rid,visibility,comment);
     return callRPC(clientkey,"comment",argu);
-  }
+  }*/
 
   Result Onep::create(string clientkey,string type,Json::Value desc){
     Json::Value argu = JsonHandler::getArguments(type,desc);
@@ -80,6 +81,10 @@ namespace onepv1{
     Json::Value argu = JsonHandler::getArguments(rid,entries,options);
     return callRPC(clientkey,"record",argu); 
   }
+  Result Onep::recordbatch(string clientkey,string rid,Json::Value entries, Json::Value options){
+    Json::Value argu = JsonHandler::getArguments(rid,entries,options);
+    return callRPC(clientkey,"recordbatch",argu);
+  }
   Result Onep::revoke(string clientkey,string codetype, string code){
     Json::Value argu = JsonHandler::getArguments(codetype,code);
     return callRPC(clientkey,"revoke",argu);
@@ -96,6 +101,10 @@ namespace onepv1{
     Json::Value argu = JsonHandler::getArguments(rid,desc);
     return callRPC(clientkey,"update",argu);   
   } 
+  Result Onep::usage(string clientkey,string rid, string metric, int starttime, int endtime) {
+    Json::Value argu = JsonHandler::getArguments(rid,metric,starttime,endtime);
+    return callRPC(clientkey,"usage",argu);
+  }
 
   Result Onep::write(string clientkey,string rid,int value,Json::Value options){
     Json::Value argu = JsonHandler::getArguments(rid,value,options);
@@ -121,5 +130,15 @@ namespace onepv1{
     Json::Value argu = JsonHandler::getArguments(entries,options);
     return callRPC(clientkey,"write",argu);    
   } 
+
+  Result Onep::writegroup(string clientkey,Json::Value entries) {
+    Json::Value argu = JsonHandler::getArguments(entries);
+    return callRPC(clientkey,"writegroup",argu);
+  }
+
+  Result Onep::writegroup(string clientkey,Json::Value entries, Json::Value options) {
+    Json::Value argu = JsonHandler::getArguments(entries,options);
+    return callRPC(clientkey,"writegroup",argu);
+  }
   
 }

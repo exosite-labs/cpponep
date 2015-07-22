@@ -11,26 +11,31 @@ OBJECTS = $(patsubst %.cpp,%.o,$(SRCFILES) )
 
 INC = -I$(INCDIR)
 JSONLIB = $(LIBDIR)/$(JSONLIBFILE)
-CURLLIB = -lcurlpp -lutilspp
+CURLLIB = -lcurlpp -lutilspp -lcurl
 EXAMPLESRC = examples/example.cpp
 EXAMPLEBIN = example
+PEXAMPLESRC = examples/ProvisionExample.cpp
+PEXAMPLEBIN = ProvisionExample
 ONEPLIB = $(LIBDIR)/$(ONEPLIBFILE)
 
-all: $(EXAMPLEBIN) cleanobj	
+all: $(EXAMPLEBIN) $(PEXAMPLEBIN) cleanobj	
 
 $(EXAMPLEBIN): $(ONEPLIB)
-	$(CC) $(EXAMPLESRC) $(INC) $< $(JSONLIB) $(CURLLIB)  -O2 -Wall -o $@;
+	$(CC) -std=c++11 $(EXAMPLESRC) $(INC) $< $(CURLLIB) -O2 -Wall -o $@;
+
+$(PEXAMPLEBIN): $(ONEPLIB)
+	$(CC) -std=c++11 $(PEXAMPLESRC) $(INC) $< $(CURLLIB) -O2 -Wall -o $@;
 
 $(ONEPLIB) : $(OBJECTS)
 	ar crsv $(ONEPLIB) $(OBJECTS)
 
 %.o: src/%.cpp $(HEADERS)
-	$(CC) $< $(INC) $(CURLLIB) -c -o $@
+	$(CC) -std=c++11 $< $(INC) $(CURLLIB) -c -o $@
 
 .PHONY: clean
 
 clean :
-	rm $(EXAMPLEBIN) $(ONEPLIB)
+	rm $(EXAMPLEBIN) $(PEXAMPLEBIN) $(ONEPLIB)
 
 cleanobj:
 	rm $(OBJECTS)

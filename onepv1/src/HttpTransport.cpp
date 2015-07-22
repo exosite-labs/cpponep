@@ -1,6 +1,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <list>
 /*=============================================================================
 * HttpTransport.cpp
 * HTTP-based JSON-RPC request call. 
@@ -14,6 +15,7 @@
 #include <curlpp/Easy.hpp>
 #include <curlpp/Options.hpp>
 #include <curlpp/Exception.hpp>
+#include <curlpp/Infos.hpp>
 
 #include "HttpTransport.h"
 #include "OneException.h"
@@ -40,7 +42,7 @@ string HttpTransport::send(string jsonreq){
     header.push_back("Content-Type: application/json; charset=utf-8"); 
     request.setOpt(new curlpp::options::HttpHeader(header)); 
     request.setOpt(new curlpp::options::PostFields(jsonreq));
-    request.setOpt(new curlpp::options::PostFieldSize( jsonreq.length() )); 
+    request.setOpt(new curlpp::options::PostFieldSize( jsonreq.length() ));
 
     std::stringstream response;
     request.setOpt(new curlpp::options::WriteStream( &response ) );
@@ -52,6 +54,41 @@ string HttpTransport::send(string jsonreq){
     std::cout << e.what() << std::endl;
   }
   catch ( curlpp::RuntimeError & e ) {   
+    std::cout << e.what() << std::endl;
+    throw HttpRPCRequestException(e.what());
+  }
+  return "fail";
+}
+
+string HttpTransport::provisionSend(string message, string method, string url, list<string> headers) {
+  url = _url + url;
+  try {
+    curlpp::Cleanup cleaner;
+    curlpp::Easy request;
+
+    request.setOpt(new curlpp::options::Url(url));
+    request.setOpt(new curlpp::options::Verbose(false));
+    request.setOpt(new curlpp::options::ConnectTimeout(3000));
+    request.setOpt(new curlpp::options::HttpHeader(headers));
+    if (method == "POST") {
+      request.setOpt(new curlpp::options::PostFields(message));
+      request.setOpt(new curlpp::options::PostFieldSize(message.length()));
+    }
+    if (method == "DELETE")
+      request.setOpt(new cURLpp::options::CustomRequest("DELETE"));
+    if (method == "PUT")
+      request.setOpt(new cURLpp::options::CustomRequest("PUT"));
+
+    std::stringstream response;
+    request.setOpt(new curlpp::options::WriteStream(&response));
+
+    request.perform();
+    return response.str();
+  }
+  catch(curlpp::LogicError & e ) {
+    std::cout << e.what() << std::endl;
+  }
+  catch ( curlpp::RuntimeError & e ) {
     std::cout << e.what() << std::endl;
     throw HttpRPCRequestException(e.what());
   }
