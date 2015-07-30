@@ -64,6 +64,18 @@ namespace onepv1{
     Json::Value argu = JsonHandler::getArguments(types);
     return callRPC(clientkey,"listing",argu);
   }
+  Result Onep::listing(string clientkey,Json::Value types,Json::Value options){
+    Json::Value argu = JsonHandler::getArguments(types, options);
+    return callRPC(clientkey,"listing",argu);
+  }
+  Result Onep::listing(string clientkey, string rid, Json::Value types){
+    Json::Value argu = JsonHandler::getArguments(rid, types);
+    return callRPC(clientkey,"listing",argu);
+  }
+  Result Onep::listing(string clientkey, string rid, Json::Value types, Json::Value options){
+    Json::Value argu = JsonHandler::getArguments(rid, types, options);
+    return callRPC(clientkey,"listing",argu);
+  }
   Result Onep::lookup(string clientkey,string type, string alias){
     Json::Value argu = JsonHandler::getArguments(type,alias);
     return callRPC(clientkey,"lookup",argu);   
