@@ -69,6 +69,7 @@ Release Info
 Release 0.2.1
 ----------------------------------------
 --) update `listing` RPC method to use RIDs, keep backwards compatibility<br> 
+
 ----------------------------------------
 Release 0.2
 ----------------------------------------
