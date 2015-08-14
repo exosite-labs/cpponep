@@ -66,6 +66,11 @@ To add cpponep library to your own application:
 Release Info
 ========================================
 ----------------------------------------
+Release 0.2.2
+----------------------------------------
+--) default examples to HTTPS<br>
+
+----------------------------------------
 Release 0.2.1
 ----------------------------------------
 --) update `listing` RPC method to use RIDs, keep backwards compatibility<br> 

@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
        string cik  = "PUTA40CHARACTERCIKHERE";
        string alias = "X1"; 
        string alias2 = "X2";
-       Onep conn = Onep("http://m2.exosite.com/onep:v1/rpc/process");             
+       Onep conn = Onep("https://m2.exosite.com/onep:v1/rpc/process");             
         
        try{
          string rid;
