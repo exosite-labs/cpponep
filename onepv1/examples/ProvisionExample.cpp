@@ -33,7 +33,7 @@ int main (int argc, char *argv[]) {
       string sn1 = "001" + to_string(r);
       string sn2 = "002" + to_string(r);
       string sn3 = "003" + to_string(r);
-      Onep conn = Onep("http://m2.exosite.com/onep:v1/rpc/process");
+      Onep conn = Onep("https://m2.exosite.com/onep:v1/rpc/process");
       Result portalridResult = conn.lookup(portalcik, "alias", "");
       string portalrid;
       string clonerid;
@@ -47,7 +47,7 @@ int main (int argc, char *argv[]) {
       if (cloneridResult.status() == Result::OK) {
             clonerid = cloneridResult.message();
             cout << "clonerid: " << clonerid << endl;
-            provision = Provision("http://m2.exosite.com", false, true);
+            provision = Provision("https://m2.exosite.com", false, true);
       }
       else cout << "Failed to look up clone RID";
       Json::Value meta;

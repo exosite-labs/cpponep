@@ -28,7 +28,11 @@ class Onep{
       Result drop(string clientkey,string rid);
       Result flush(string clientkey,string rid);
       Result info(string clientkey,string rid,Json::Value options);
-      Result listing(string clientkey,Json::Value types);       
+      // listing methods that do not use RIDs are deprecated
+      Result listing(string clientkey,Json::Value types);
+      Result listing(string clientkey, Json::Value types, Json::Value options);
+      Result listing(string clientkey, string rid, Json::Value types);
+      Result listing(string clientkey, string rid, Json::Value types, Json::Value options);   
       Result lookup(string clientkey,string type, string alias);
       Result map(string clientkey,string rid, string alias);
       Result read(string clientkey,string rid,Json::Value options);

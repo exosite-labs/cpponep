@@ -66,12 +66,22 @@ To add cpponep library to your own application:
 Release Info
 ========================================
 ----------------------------------------
+Release 0.2.2
+----------------------------------------
+--) default examples to HTTPS<br>
+
+----------------------------------------
+Release 0.2.1
+----------------------------------------
+--) update `listing` RPC method to use RIDs, keep backwards compatibility<br> 
+
+----------------------------------------
 Release 0.2
 ----------------------------------------
 --) now depends on jsoncpp 1.6.4 rather than 0.6.0-rc2<br>
---) add writegroup, usage, and recordbatch<br>
---) remove comment<br>
---) add writegroup example<br>
+--) add `writegroup`, `usage`, and `recordbatch`<br>
+--) remove `comment`<br>
+--) add `writegroup` example<br>
 --) add provisioning and example<br>
 
 ----------------------------------------
